@@ -4,6 +4,9 @@ const app = express();
 const mongoose = require("mongoose")
 const path = require("path")
 const connectDB = require("./utils/connectDB")
+const http = require("http");
+
+
 
 const errorHandler = require("./middlewares/errorHandler");
 const notFound = require("./middlewares/notFound");
@@ -29,11 +32,41 @@ app.use("/uploads", express.static(path.join(__dirname, "../uploads")))
 
 app.get("/api/health", (req, res) => res.status(200).json("API is Healthy"));
 
+
 app.use(errorHandler);
 app.use(notFound);
 
+const PORT = process.env.PORT;
+const MONGODB_URL = process.env.MONGODB_URL;
 
- connectDB();
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+
+mongoose.connect(MONGODB_URL)
+    .then(() => {
+        console.log("Connected to MONGODB Successfully");
+        server.listen(PORT, () => {
+            console.log(`Server is running on http://localhost:${PORT}`);
+        })
+    })
+    .catch(err => {
+        console.log('Error MONGODB', err.message);
+    })
+
+io.on("connection", (socket) => {
+    console.log("New client connected", socket.id);
+
+    socket.on("disconnect", () => {
+        console.log("Client disconnected", socket.id);
+    });
+
+    socket.on("msg", (data) => {
+        console.log("New message received:", data);
+    });
+});
+
+/* connectDB();*/
 
 
 
