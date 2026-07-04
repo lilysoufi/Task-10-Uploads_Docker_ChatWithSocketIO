@@ -31,9 +31,9 @@ A complete file upload solution supporting both local storage (Multer) and cloud
 ###  Installation
 
 1. Clone the repository
-
+```
 git clone https://github.com/lilysoufi/Task-10-Uploads_Docker_ChatWithSocketIO.git
-
+```
 2. Install dependencies
 ```
 npm insatll
