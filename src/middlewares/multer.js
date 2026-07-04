@@ -69,7 +69,7 @@ const uploadLocal = multer({
 
 // Multer configuration for Cloudinary
 const uploadCloud = multer({
-    storage: cloudStorage,
+    storage,
     fileFilter: fileFilter,
     limits: {
         fileSize: 5 * 1024 * 1024,

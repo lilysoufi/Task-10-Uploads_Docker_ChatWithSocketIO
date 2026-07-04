@@ -28,8 +28,8 @@ app.use(cookies());
 app.use(xssSanitize);
 app.use(express.static("public"));
 
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")))
-
+//app.use("/uploads", express.static(path.join(__dirname, "../uploads")))
+app.use("/uploads", require("../src/routes/uploads.route"));
 app.get("/api/health", (req, res) => res.status(200).json("API is Healthy"));
 
 
@@ -55,23 +55,11 @@ mongoose.connect(MONGODB_URL)
         console.log('Error MONGODB', err.message);
     })
 
-    
-    /*socketHandler(io);*/
+socketHandler(io);
 
 
-/*io.on("connection", (socket) => {
-    console.log("New client connected", socket.id);
 
-    socket.on("disconnect", () => {
-        console.log("Client disconnected", socket.id);
-    });
-
-    socket.on("msg", (data) => {
-        console.log("New message received:", data);
-    });
-});
-*/
- connectDB();
+/* connectDB();*/
 
 
 
